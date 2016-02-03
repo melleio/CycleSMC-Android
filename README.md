@@ -1,4 +1,5 @@
-Cycle Philly, 2013 Code for Philly
+CycleSMC (formerly Cycle Philly, 2013 Code for Philly)
+2016 by OpenSMC
 -----------
 Philadelphia, PA. USA
 
