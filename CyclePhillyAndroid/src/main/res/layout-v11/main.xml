@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/dashboard_bar"
-        android:title="Cycle Philly">
+        android:title="Cycle SMC">
 
         <TextView
             android:layout_width="40dp"
@@ -81,7 +81,7 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="165dp"
         android:layout_weight="0.04"
@@ -112,8 +112,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
-        <!--<ListView android:layout_height="138dp" android:id="@+id/ListNearbyIndego" android:layout_width="fill_parent"-->
-            <!--android:layout_weight="0.36"></ListView>-->
+         /* <ListView android:layout_height="138dp" android:id="@+id/ListNearbyIndego" android:layout_width="fill_parent"-->
+            <!--android:layout_weight="0.36"></ListView> */
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
@@ -121,7 +121,7 @@
                 android:layout_below="@+id/neaby_text">
 
             </android.support.v7.widget.RecyclerView>
-    </RelativeLayout>
+    </RelativeLayout> -->
 
     <TextView
         android:layout_width="wrap_content"

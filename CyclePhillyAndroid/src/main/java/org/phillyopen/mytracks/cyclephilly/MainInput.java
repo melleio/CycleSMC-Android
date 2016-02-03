@@ -99,8 +99,8 @@ public class MainInput extends ActionBarActivity {
     public final static int PREF_ANONID = 13;
     final String DEGREE  = "\u00b0";
     public final static String FIREBASE_REF = "https://cyclephilly.firebaseio.com";
-    Firebase indegoRef;
-    Firebase indegoGeofireRef;
+    //Firebase indegoRef;
+    //Firebase indegoGeofireRef;
 
 
     private final static int CONTEXT_RETRY = 0;
@@ -115,10 +115,16 @@ public class MainInput extends ActionBarActivity {
     private TextView debugLocation;
     Typeface weatherFont;
 
-    private RecyclerView nearbyStations;
-    private List<IndegoStation> indegoList = Collections.emptyList();
-    private DataSnapshot indegoDataList;
-    private RideIndegoAdapter indegoAdapter;
+    //private RecyclerView nearbyStations;
+    //private List<IndegoStation> indegoList = Collections.emptyList();
+    //private DataSnapshot indegoDataList;
+    //private RideIndegoAdapter indegoAdapter;
+
+    //TODO: Add floating action button to start trip
+    //Once trip started, add progress. Miles/time/calories/recenter button etc
+    //Choose which methods of transport used
+    //Final survey/add notes/etc
+    //Trip manager button
 
     DbAdapter mDb;
     
@@ -271,7 +277,7 @@ public class MainInput extends ActionBarActivity {
                 boolean connected = (Boolean)dataSnapshot.getValue();
                 if (connected) {
                     System.out.println("connected "+dataSnapshot.toString());
-                    Firebase cycleRef = new Firebase(FIREBASE_REF+"/"+anon+"/connections");
+//                    Firebase cycleRef = new Firebase(FIREBASE_REF+"/"+anon+"/connections");
 //                    cycleRef.setValue(Boolean.TRUE);
 //                    cycleRef.onDisconnect().removeValue();
                 } else {
@@ -317,10 +323,10 @@ public class MainInput extends ActionBarActivity {
             public void onProviderDisabled(String provider) {}
         };
 
-        nearbyStations = (RecyclerView) findViewById(R.id.nearbyStationList);
-        nearbyStations.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        //nearbyStations = (RecyclerView) findViewById(R.id.nearbyStationList);
+        //nearbyStations.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         //Listener for Indego Changes
-        indegoRef = new Firebase("https://phl.firebaseio.com/indego/kiosks");
+        /*indegoRef = new Firebase("https://phl.firebaseio.com/indego/kiosks");
         indegoRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -334,33 +340,33 @@ public class MainInput extends ActionBarActivity {
             public void onCancelled(FirebaseError firebaseError) {
 
             }
-        });
+        });*/
 
 // Register the listener with the Location Manager to receive location updates
 
-        indegoGeofireRef = new Firebase("https://phl.firebaseio.com/indego/_geofire");
-        GeoFire geoFire = new GeoFire(indegoGeofireRef);
+        //indegoGeofireRef = new Firebase("https://phl.firebaseio.com/indego/_geofire");
+        //GeoFire geoFire = new GeoFire(indegoGeofireRef);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         mySpot = myCurrentLocation();
-        indegoList = new ArrayList<IndegoStation>();
+        //indegoList = new ArrayList<IndegoStation>();
         System.out.println("lo: "+mySpot.toString());
 
-        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(mySpot.longitude,mySpot.latitude), 0.5);
+       /* GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(mySpot.latitude,mySpot.longitude), 0.5);
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
                 System.out.println(String.format("Key %s entered the search area at [%f,%f]", key, location.latitude, location.longitude));
                 //Create Indego Station object. To-do: check if object exists
-                IndegoStation station = new IndegoStation();
-                station.kioskId = key;
-                station.location = location;
-                if(indegoDataList != null){
+               // IndegoStation station = new IndegoStation();
+                //station.kioskId = key;
+                //station.location = location;
+               /* if(indegoDataList != null){
                     //get latest info from list
                     station.name = (String) indegoDataList.child(key).child("properties").child("name").getValue();
                 }
                 System.out.println(station.name);
-                indegoList.add(station);
+                //indegoList.add(station);
                 //To-do: Add indego station info to RideIndegoAdapter
 
             }
@@ -376,10 +382,10 @@ public class MainInput extends ActionBarActivity {
             }
 
             @Override
-            public void onGeoQueryReady() {
-                System.out.println("GEO READY :"+indegoList.toString());
-                indegoAdapter = new RideIndegoAdapter(getApplicationContext(),indegoList);
-                nearbyStations.setAdapter(indegoAdapter);
+           /* public void onGeoQueryReady() {
+                //System.out.println("GEO READY :"+indegoList.toString());
+               // indegoAdapter = new RideIndegoAdapter(getApplicationContext(),indegoList);
+                //nearbyStations.setAdapter(indegoAdapter);
 
 
             }
@@ -388,7 +394,7 @@ public class MainInput extends ActionBarActivity {
             public void onGeoQueryError(FirebaseError error) {
                 System.out.println("GEO error");
             }
-        });
+        });*/
 
 
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -583,9 +589,9 @@ public class MainInput extends ActionBarActivity {
             myIntent.putExtra(Intent.EXTRA_SUBJECT, "Cycle Philly Android App");
             startActivity(Intent.createChooser(myIntent, "Send email..."));
             return true;
-        case MENU_MAP:
+        /*case MENU_MAP:
         	startActivity(new Intent(this, ShowMapNearby.class));
-        	return true;
+        	return true;*/
         case MENU_LEGAL_INFO:
         	startActivity(new Intent(this, LicenseActivity.class));
       		return true;
