@@ -411,7 +411,7 @@ public class MainInput extends ActionBarActivity {
         });
 
         toolbar = (Toolbar) findViewById(R.id.dashboard_bar);
-        toolbar.setTitle("Cycle Philly");
+        toolbar.setTitle(getString(R.string.app_name));
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -445,7 +445,7 @@ public class MainInput extends ActionBarActivity {
 
     private void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Your phone's GPS is disabled. Cycle Philly needs GPS to determine your location.\n\nGo to System Settings now to enable GPS?")
+        builder.setMessage(String.format("Your phone's GPS is disabled. %s needs GPS to determine your location.\n\nGo to System Settings now to enable GPS?", getString(R.string.app_name)))
                .setCancelable(false)
                .setPositiveButton("GPS Settings...", new DialogInterface.OnClickListener() {
                    public void onClick(final DialogInterface dialog, final int id) {
@@ -464,13 +464,13 @@ public class MainInput extends ActionBarActivity {
 
     private void showWelcomeDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Please update your personal details so we can learn a bit about you.\n\nThen, try to use Cycle Philly every time you ride. Your trip routes will be sent to regional transportation planners to improve biking in the Philadelphia area!\n\nThanks,\nThe Cycle Philly team")
-               .setCancelable(false).setTitle("Welcome to Cycle Philly!")
-               .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                   public void onClick(final DialogInterface dialog, final int id) {
-                       startActivity(new Intent(MainInput.this, UserInfoActivity.class));
-                   }
-               });
+        builder.setMessage(String.format("Please update your personal details so we can learn a bit about you.\n\nThen, try to use %s every time you ride. Your trip routes will be sent to regional transportation planners to improve biking in the %s area!\n\nThanks,\nThe %s team", getString(R.string.app_name), getString(R.string.geographicName), getString(R.string.app_name)))
+                .setCancelable(false).setTitle(getString(R.string.welcomeMessage))
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        startActivity(new Intent(MainInput.this, UserInfoActivity.class));
+                    }
+                });
 
         final AlertDialog alert = builder.create();
         alert.show();
@@ -586,7 +586,7 @@ public class MainInput extends ActionBarActivity {
         	Intent myIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                     "mailto","cyclephilly@gmail.com", null));
 
-            myIntent.putExtra(Intent.EXTRA_SUBJECT, "Cycle Philly Android App");
+            myIntent.putExtra(Intent.EXTRA_SUBJECT, String.format("%s Android App", getString(R.string.app_name)));
             startActivity(Intent.createChooser(myIntent, "Send email..."));
             return true;
         /*case MENU_MAP:

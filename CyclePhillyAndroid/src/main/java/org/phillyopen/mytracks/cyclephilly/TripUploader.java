@@ -372,7 +372,7 @@ public class TripUploader extends AsyncTask <Long, Integer, Boolean> {
 
     @Override
     protected void onPreExecute() {
-        Toast.makeText(mCtx.getApplicationContext(),"Submitting trip. Thanks for using Cycle Philly!", Toast.LENGTH_LONG).show();
+        Toast.makeText(mCtx.getApplicationContext(), mCtx.getString(R.string.uploadProgressMessage), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -381,7 +381,7 @@ public class TripUploader extends AsyncTask <Long, Integer, Boolean> {
             if (result) {
                 Toast.makeText(mCtx.getApplicationContext(),"Trip uploaded successfully.", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(mCtx.getApplicationContext(),"Cycle Philly couldn't upload the trip, and will retry when your next trip is completed.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mCtx.getApplicationContext(), mCtx.getString(R.string.uploadFailedMessage), Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
             // Just don't toast if the view has gone out of context

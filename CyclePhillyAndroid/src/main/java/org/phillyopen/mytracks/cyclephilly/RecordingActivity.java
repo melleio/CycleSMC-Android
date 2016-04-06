@@ -154,7 +154,7 @@ public class RecordingActivity extends FragmentActivity implements ConnectionCal
 						startUpdates();
 						isRecording = true;
 						RecordingActivity.this.pauseButton.setEnabled(true);
-						RecordingActivity.this.setTitle("Cycle Philly - Recording...");
+						RecordingActivity.this.setTitle(getString(R.string.recordingData));
 						break;
 					case RecordingService.STATE_RECORDING:
 						long id = rs.getCurrentTrip();
@@ -162,7 +162,7 @@ public class RecordingActivity extends FragmentActivity implements ConnectionCal
 						isRecording = true;
 						startUpdates();
 						RecordingActivity.this.pauseButton.setEnabled(true);
-						RecordingActivity.this.setTitle("Cycle Philly - Recording...");
+						RecordingActivity.this.setTitle(getString(R.string.recordingData));
 						break;
 					case RecordingService.STATE_PAUSED:
 						long tid = rs.getCurrentTrip();
@@ -170,7 +170,7 @@ public class RecordingActivity extends FragmentActivity implements ConnectionCal
 						trip = TripData.fetchTrip(RecordingActivity.this, tid);
 						RecordingActivity.this.pauseButton.setEnabled(true);
 						RecordingActivity.this.pauseButton.setText("Resume");
-						RecordingActivity.this.setTitle("Cycle Philly - Paused...");
+						RecordingActivity.this.setTitle(getString(R.string.recordingPaused));
 						break;
 					case RecordingService.STATE_FULL:
 						// Should never get here, right?
@@ -199,7 +199,7 @@ public class RecordingActivity extends FragmentActivity implements ConnectionCal
 				isRecording = !isRecording;
 				if (isRecording) {
 					pauseButton.setText("Pause");
-					RecordingActivity.this.setTitle("Cycle Philly - Recording...");
+					RecordingActivity.this.setTitle(getString(R.string.recordingData));
 					// Don't include pause time in trip duration
 					if (trip.pauseStartedAt > 0) {
 	                    trip.totalPauseTime += (System.currentTimeMillis() - trip.pauseStartedAt);
@@ -208,7 +208,7 @@ public class RecordingActivity extends FragmentActivity implements ConnectionCal
 					Toast.makeText(getBaseContext(),"GPS restarted. It may take a moment to resync.", Toast.LENGTH_LONG).show();
 				} else {
 					pauseButton.setText("Resume");
-					RecordingActivity.this.setTitle("Cycle Philly - Paused...");
+					RecordingActivity.this.setTitle(getString(R.string.recordingPaused));
 					trip.pauseStartedAt = System.currentTimeMillis();
 					Toast.makeText(getBaseContext(),"Recording paused; GPS now offline", Toast.LENGTH_LONG).show();
 				}

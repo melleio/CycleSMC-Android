@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="recording_title">Cycle Philly</string>
+	<string name="recording_title">Cycle San Mateo County</string>
 	<string name="icon_sun">&#xe601;</string>
-	<string name="app_name">Cycle Philly</string>
+	<string name="app_name">Cycle San Mateo County</string>
+	<string name="geographicName">San Mateo County</string>
+	<string name="welcomeMessage">Welcome to Cycle San Mateo County!</string>
 	<string name="postUrl">http://www.cyclephilly.org/post/</string>
 	<string name="icon">Bicycle Parking</string>
 	<string name="previous_trips">Saved Trips:</string>
@@ -17,8 +19,15 @@
     <string name="didUsePublicTransit">Did you use public transit during this trip?</string>
 	<string name="enterTripInfo">And add any comments about your trip here</string>
 	<string name="promptPurpose">Select the main purpose of this trip</string>
+
+	<!-- Recording Messages -->
+	<string name="recordingData">Cycle San Mateo County - Recording</string>
+	<string name="recordingPaused">Cycle San Mateo County - Paused</string>
+
+	<!-- Uploading Messages -->
 	<string name="uploadProgressTitle">Sending…</string>
-	<string name="uploadProgressMessage">Sending your trip.\n\nThanks for using Cycle Philly!</string>
+	<string name="uploadProgressMessage">Sending your trip.\n\nThanks for using Cycle San Mateo County!</string>
+	<string name="uploadFailedMessage">"Cycle San Mateo County couldn't upload the trip, and will retry when your next trip is completed."</string>
 
 	<string name="cloudy">&#xe61d;</string>
 	<string-array name="ageArray">
