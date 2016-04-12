@@ -1,3 +1,10 @@
+Cycle San Mateo County, 2016 Open San Mateo County
+-----------
+San Mateo County, CA. USA
+
+Updated/Modified for San Mateo County's app deployment. Based on the
+CycleTracks codebase for SFCTA.
+
 Cycle Philly, 2013 Code for Philly
 -----------
 Philadelphia, PA. USA
