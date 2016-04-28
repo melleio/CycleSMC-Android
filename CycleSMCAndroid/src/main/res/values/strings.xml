@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="recording_title">Cycle San Mateo County</string>
+	<string name="recording_title">MoveBA</string>
 	<string name="icon_sun">&#xe601;</string>
-	<string name="app_name">Cycle San Mateo County</string>
+	<string name="app_name">MoveBA</string>
 	<string name="geographicName">San Mateo County</string>
-	<string name="welcomeMessage">Welcome to Cycle San Mateo County!</string>
-	<string name="postUrl">http://www.cyclesmc.org/post/</string>
+	<string name="welcomeMessage">Welcome to MoveBA!</string>
+	<string name="postUrl">http://smc.moveba.org/post/</string>
 	<string name="icon">Bicycle Parking</string>
 	<string name="previous_trips">Saved Trips:</string>
 	<string name="startNewTrip">Start Trip!</string>
     <string name="weatherAlert"></string>
     <string name="currentTemperature"> -- </string>
-    <string name="cycleReferenceTripsStarted">https://cyclesmc.firebaseio.com/trips-started/2014/</string>
+	<string name="fbRef">https://m-0.firebaseio.com/</string>
     <!--<string name="tripsStats"> trips today |  trips total</string>-->
     <string name="tripsStats"></string>
 	<string name="pauseButtonLabel">Pause</string>
@@ -20,14 +20,16 @@
 	<string name="enterTripInfo">And add any comments about your trip here</string>
 	<string name="promptPurpose">Select the main purpose of this trip</string>
 
+	<string name="userPrefHeadingText">Hello! Please enter your user details here. It\'s optional, anonymous, and will really help us understand different people\'s biking preferences.</string>
+
 	<!-- Recording Messages -->
 	<string name="recordingData">Cycle San Mateo County - Recording</string>
 	<string name="recordingPaused">Cycle San Mateo County - Paused</string>
 
 	<!-- Uploading Messages -->
 	<string name="uploadProgressTitle">Sending…</string>
-	<string name="uploadProgressMessage">Sending your trip.\n\nThanks for using Cycle San Mateo County!</string>
-	<string name="uploadFailedMessage">"Cycle San Mateo County couldn't upload the trip, and will retry when your next trip is completed."</string>
+	<string name="uploadProgressMessage">Sending your trip.\n\nThanks for using MoveBA!</string>
+	<string name="uploadFailedMessage">"MoveBA couldn't upload the trip, and will retry when your next trip is completed."</string>
 
 	<string name="cloudy">&#xe61d;</string>
 	<string-array name="ageArray">

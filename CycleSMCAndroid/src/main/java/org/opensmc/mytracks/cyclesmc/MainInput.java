@@ -98,9 +98,6 @@ public class MainInput extends ActionBarActivity {
     private final static int MENU_LEGAL_INFO = 3;
     public final static int PREF_ANONID = 13;
     final String DEGREE  = "\u00b0";
-    public final static String FIREBASE_REF = "https://org.opensmc.mytracks.cyclesmc.firebaseio.com";
-    //Firebase indegoRef;
-    //Firebase indegoGeofireRef;
 
 
     private final static int CONTEXT_RETRY = 0;
@@ -168,8 +165,7 @@ public class MainInput extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
 
-        final Firebase ref = new Firebase("https://org.opensmc.mytracks.cyclesmc.firebaseio.com");
-        final Firebase phlref = new Firebase("https://phl.firebaseio.com");
+        final Firebase ref = new Firebase(getString(R.string.fbRef));
         // Let's handle some launcher lifecycle issues:
 		// If we're recording or saving right now, jump to the existing activity.
 		// (This handles user who hit BACK button while recording)
@@ -228,8 +224,8 @@ public class MainInput extends ActionBarActivity {
         SharedPreferences settings = getSharedPreferences("PREFS", 0);
         final String anon = settings.getString(""+PREF_ANONID,"NADA");
 
-        Firebase weatherRef = new Firebase("https://publicdata-weather.firebaseio.com/philadelphia");
-        Firebase tempRef = new Firebase("https://publicdata-weather.firebaseio.com/philadelphia/currently");
+        Firebase weatherRef = new Firebase("https://publicdata-weather.firebaseio.com/sanfrancisco");
+        Firebase tempRef = new Firebase("https://publicdata-weather.firebaseio.com/sanfrancisco/currently");
 
 
 
@@ -240,13 +236,13 @@ public class MainInput extends ActionBarActivity {
                 String cardinal = null;
 
                 TextView tempState = (TextView) findViewById(R.id.temperatureView);
-//                TextView liveTemp = (TextView) findViewById(R.id.warning);
+                TextView liveTemp = (TextView) findViewById(R.id.temperatureView1);
                 String apparentTemp = ((Map)val).get("apparentTemperature").toString();
                 String windSpeed  = ((Map)val).get("windSpeed").toString();
                 Double windValue = (Double)((Map)val).get("windSpeed");
                 Long windBearing = (Long)((Map)val).get("windBearing");
 
-//                liveTemp.setText(" "+apparentTemp.toString()+DEGREE);
+                liveTemp.setText(" "+apparentTemp.toString()+DEGREE);
                 WindDirection[] windDirections = WindDirection.values();
                 for(int i=0; i<windDirections.length; i++ ){
                     if(windDirections[i].startDegree < windBearing && windDirections[i].endDegree > windBearing){
@@ -255,7 +251,7 @@ public class MainInput extends ActionBarActivity {
                     }
                 }
 
-                if(windValue > 4){
+                if(windValue > 4.6){
                     tempState.setTextColor(0xFFDC143C);
                     tempState.setText("winds " + cardinal + " at " + windSpeed + " mph. Ride with caution.");
                 }else{
@@ -584,7 +580,7 @@ public class MainInput extends ActionBarActivity {
             return true;
         case MENU_CONTACT_US:
         	Intent myIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto","org.opensmc.mytracks.cyclesmc@gmail.com", null));
+                    "mailto","contact@moveba.org", null));
 
             myIntent.putExtra(Intent.EXTRA_SUBJECT, String.format("%s Android App", getString(R.string.app_name)));
             startActivity(Intent.createChooser(myIntent, "Send email..."));

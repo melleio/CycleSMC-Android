@@ -10,20 +10,21 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/TextView01"
+            android:id="@+id/userPrefHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10sp"
             android:layout_marginLeft="12sp"
             android:layout_marginRight="5sp"
-            android:layout_marginTop="5sp"
-            android:text="Thanks for using Cycle San Mateo County! Please enter your user details here. It&apos;s optional, anonymous, and will really help us understand different people&apos;s biking preferences." >
+            android:layout_marginTop="5sp">
         </TextView>
 
         <LinearLayout
             android:id="@+id/ageGroup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/TextView05"
@@ -47,7 +48,9 @@
         <LinearLayout
             android:id="@+id/ethnicityGroup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/TextView09"
@@ -70,7 +73,9 @@
         <LinearLayout
             android:id="@+id/homeincomeGroup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/TextView10"
@@ -93,7 +98,9 @@
         <RelativeLayout
             android:id="@+id/RelativeLayout02"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <RadioGroup
                 android:id="@+id/RadioGroup01"
@@ -141,7 +148,9 @@
         <RelativeLayout
             android:id="@+id/RelativeLayout01"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/TextView02"
