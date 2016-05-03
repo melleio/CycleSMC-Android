@@ -17,6 +17,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -25,6 +26,7 @@ import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 public class FireService extends Service {
@@ -40,7 +42,7 @@ public class FireService extends Service {
     public static final String NOTIFICATION_TEXT = "nt";
 
     private static final long TWO_MINUTES = 1000 * 60 * 2;
-    private static final String URL = "https://org.opensmc.mytracks.cyclesmc.firebaseio.com/location/lizzy.json";
+    private static final String URL = "https://m-0.firebaseio.com/location/lizzy.json";
     private static final long POLL_INTERVAL = 1000 * 60 * 5;
     private static final int SERVICE_ID = 0xba5e;
 
@@ -72,7 +74,7 @@ public class FireService extends Service {
 
     @Override
     public void onCreate() {
-        notificationMgr = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        notificationMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -90,8 +92,8 @@ public class FireService extends Service {
                     System.currentTimeMillis());
             PendingIntent i = PendingIntent.getActivity(this, 0,
                     new Intent(this, notifiedActivity), 0);
-            note.setLatestEventInfo(this, notificationText,
-                    text, i);
+//            note.setLatestEventInfo(this, notificationText,
+//                    text, i);
             notificationMgr.notify(SERVICE_ID, note);
         }
     }
@@ -129,7 +131,7 @@ public class FireService extends Service {
         String clazz = extras.getString(NOTIFICATION_ACTIVITY);
         if (clazz != null) {
             try {
-                notifiedActivity = (Class<Activity>)Class.forName(clazz);
+                notifiedActivity = (Class<Activity>) Class.forName(clazz);
             } catch (ClassCastException e) {
                 notifiedActivity = null;
             } catch (ClassNotFoundException e) {
@@ -142,13 +144,13 @@ public class FireService extends Service {
         if (iconId != -1 && notifiedActivity != null && startupText != null) {
             icon = iconId;
             if (notificationText == null) {
-                notificationText= startupText;
+                notificationText = startupText;
             }
         }
     }
 
     private LocationManager getLocationMgr() {
-        return (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        return (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
     private LocationListener getListener() {
@@ -182,6 +184,16 @@ public class FireService extends Service {
 
     private void clearListener() {
         if (locListener != null) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             getLocationMgr().removeUpdates(locListener);
             locListener = null;
         }
@@ -195,6 +207,16 @@ public class FireService extends Service {
         LocationManager mgr = getLocationMgr();
         locListener = getListener();
         String provider = getProviderName(mgr);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         mgr.requestLocationUpdates(provider, pollInterval, 0, locListener);
     }
 

@@ -585,9 +585,9 @@ public class MainInput extends ActionBarActivity {
             myIntent.putExtra(Intent.EXTRA_SUBJECT, String.format("%s Android App", getString(R.string.app_name)));
             startActivity(Intent.createChooser(myIntent, "Send email..."));
             return true;
-        /*case MENU_MAP:
+        case MENU_MAP:
         	startActivity(new Intent(this, ShowMapNearby.class));
-        	return true;*/
+        	return true;
         case MENU_LEGAL_INFO:
         	startActivity(new Intent(this, LicenseActivity.class));
       		return true;

@@ -1,12 +1,14 @@
 package org.opensmc.mytracks.cyclesmc;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,41 +30,56 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.TileOverlay;
+import com.google.maps.android.kml.KmlLayer;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+
 public class ShowMapNearby extends FragmentActivity {
-	
-	private final static int MENU_SHOW_HIDE_RACKS = 0;
+
+    private final static int MENU_SHOW_HIDE_RACKS = 0;
     private final static int MENU_SHOW_HIDE_ROUTES = 1;
     private final static int MENU_ABOUT = 2;
-    
-	private GoogleMap mMap;
-	private TileOverlay racksOverlay;
-	private TileOverlay routesOverlay;
-	private MenuItem racksMenu;
-	private MenuItem routesMenu;
-	private LinearLayout layout;
-	private LocationManager lm = null;
-	private LatLng mySpot = null;
-	TextView t1;
-    TextView t2; 
+
+    private GoogleMap mMap;
+    private TileOverlay racksOverlay;
+    private TileOverlay routesOverlay;
+    private MenuItem racksMenu;
+    private MenuItem routesMenu;
+    private LinearLayout layout;
+    private LocationManager lm = null;
+    private LatLng mySpot = null;
+    TextView t1;
+    TextView t2;
     TextView t3;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.nearbymapview);
-		
-		t1 = (TextView) findViewById(R.id.TextViewT1);
-		t2 = (TextView) findViewById(R.id.TextViewT2);
-		t3 = (TextView) findViewById(R.id.TextViewT3);
-	
-		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		Criteria criteria = new Criteria();
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.nearbymapview);
+
+        t1 = (TextView) findViewById(R.id.TextViewT1);
+        t2 = (TextView) findViewById(R.id.TextViewT2);
+        t3 = (TextView) findViewById(R.id.TextViewT3);
+
+        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-		Location loc = lm.getLastKnownLocation(lm.getBestProvider(criteria, false));
-		
-        t1.setText("Bicycle Racks and Parking");
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location loc = lm.getLastKnownLocation(lm.getBestProvider(criteria, false));
+
+        t1.setText("Bicycle Routes");
         //t3.setText("loading...");
         
         if (loc != null) {
@@ -102,25 +119,35 @@ public class ShowMapNearby extends FragmentActivity {
 
 		// check if got map
 		if (mMap == null) {
-			Log.e("Couldn't get map fragment!", "No map fragment");
+			Log.e("No map fragment!", "No map fragment");
 			return;
 		}
 		
 		mMap.setInfoWindowAdapter(new BikeRackInfoWindow(getLayoutInflater()));
-		
-		// use mapbox map with base layer
+
+        try {
+            KmlLayer layer = new KmlLayer(mMap,R.raw.routes, getApplicationContext());
+            layer.addLayerToMap();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        // use mapbox map with base layer
 		//TileOverlayOptions tileOpts = new TileOverlayOptions();
 		//tileOpts.tileProvider(new MapTileProvider("banderkat.map-xdg8ubm7"));
 		//mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
 		//mMap.addTileOverlay(tileOpts);
 		
-		TileOverlayOptions racksOpts = new TileOverlayOptions();
-		racksOpts.tileProvider(new MapTileProvider("banderkat.PhillyBikeRacks"));
-		TileOverlayOptions routesOpts = new TileOverlayOptions();
-		routesOpts.tileProvider(new MapTileProvider("banderkat.philly_bikeroutes"));
-		
-		routesOverlay = mMap.addTileOverlay(routesOpts);
-		racksOverlay = mMap.addTileOverlay(racksOpts);
+//		TileOverlayOptions racksOpts = new TileOverlayOptions();
+//		racksOpts.tileProvider(new MapTileProvider("banderkat.PhillyBikeRacks"));
+//		TileOverlayOptions routesOpts = new TileOverlayOptions();
+//		routesOpts.tileProvider(new MapTileProvider("banderkat.philly_bikeroutes"));
+//
+//		routesOverlay = mMap.addTileOverlay(routesOpts);
+//		racksOverlay = mMap.addTileOverlay(racksOpts);
 	}
 	
 	// menu to toggle routes and racks overlays

@@ -23,8 +23,8 @@
 	<string name="userPrefHeadingText">Hello! Please enter your user details here. It\'s optional, anonymous, and will really help us understand different people\'s biking preferences.</string>
 
 	<!-- Recording Messages -->
-	<string name="recordingData">Cycle San Mateo County - Recording</string>
-	<string name="recordingPaused">Cycle San Mateo County - Paused</string>
+	<string name="recordingData">MoveBA - Recording</string>
+	<string name="recordingPaused">MoveBA - Paused</string>
 
 	<!-- Uploading Messages -->
 	<string name="uploadProgressTitle">Sending…</string>
