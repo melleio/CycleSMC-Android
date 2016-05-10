@@ -1,5 +1,5 @@
 /**  Cycle Philly, Copyright 2014 Code for Philly
- *   
+ *
  *   @author Lloyd Emelle <lloyd@codeforamerica.org>
  *   @author Christopher Le Dantec <ledantec@gatech.edu>
  *   @author Anhong Guo <guoanhong15@gmail.com>
@@ -28,9 +28,8 @@
  *   along with CycleTracks.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.opensmc.mytracks.cyclesmc;
+package org.moveba.easystreet;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -40,6 +39,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.graphics.Typeface;
@@ -50,10 +50,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -71,20 +69,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.*;
-import com.firebase.geofire.GeoFire;
-import com.firebase.geofire.GeoLocation;
-import com.firebase.geofire.GeoQuery;
-import com.firebase.geofire.GeoQueryEventListener;
-import com.firebase.geofire.LocationCallback;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -97,7 +86,7 @@ public class MainInput extends ActionBarActivity {
     private final static int MENU_MAP = 2;
     private final static int MENU_LEGAL_INFO = 3;
     public final static int PREF_ANONID = 13;
-    final String DEGREE  = "\u00b0";
+    final String DEGREE = "\u00b0";
 
 
     private final static int CONTEXT_RETRY = 0;
@@ -124,29 +113,29 @@ public class MainInput extends ActionBarActivity {
     //Trip manager button
 
     DbAdapter mDb;
-    
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case CONNECTION_FAILURE_RESOLUTION_REQUEST :
+            case CONNECTION_FAILURE_RESOLUTION_REQUEST:
                 switch (resultCode) {
-                    case Activity.RESULT_OK :
-                    //TODO: ...try the request again?
-                    break;
+                    case Activity.RESULT_OK:
+                        //TODO: ...try the request again?
+                        break;
                 }
-        	}
         }
-    
+    }
+
     @Override
     public void onResume() {
-    	super.onResume();
-    	
-    	// Check that Google Play services is available
+        super.onResume();
+
+        // Check that Google Play services is available
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if (ConnectionResult.SUCCESS == resultCode) {
             Log.d("Location Updates", "Google Play services is available.");
             return;
-        // Google Play services was not available for some reason
+            // Google Play services was not available for some reason
         } else {
             // Get the error dialog from Google Play services
             Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(resultCode, this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
@@ -158,18 +147,18 @@ public class MainInput extends ActionBarActivity {
             }
         }
     }
-    
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
 
         final Firebase ref = new Firebase(getString(R.string.fbRef));
         // Let's handle some launcher lifecycle issues:
-		// If we're recording or saving right now, jump to the existing activity.
-		// (This handles user who hit BACK button while recording)
-		setContentView(R.layout.main);
+        // If we're recording or saving right now, jump to the existing activity.
+        // (This handles user who hit BACK button while recording)
+        setContentView(R.layout.main);
         weatherFont = Typeface.createFromAsset(getAssets(), "cyclesmc.ttf");
 
         weatherText = (TextView) findViewById(R.id.weatherView);
@@ -177,56 +166,51 @@ public class MainInput extends ActionBarActivity {
         weatherText.setText(R.string.cloudy);
 
 
+        Intent rService = new Intent(this, RecordingService.class);
+        ServiceConnection sc = new ServiceConnection() {
+            public void onServiceDisconnected(ComponentName name) {
+            }
 
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                IRecordService rs = (IRecordService) service;
+                int state = rs.getState();
+                if (state > RecordingService.STATE_IDLE) {
+                    if (state == RecordingService.STATE_FULL) {
+                        startActivity(new Intent(MainInput.this, SaveTrip.class));
+                    } else {  // RECORDING OR PAUSED:
+                        startActivity(new Intent(MainInput.this, RecordingActivity.class));
+                    }
+                    MainInput.this.finish();
+                } else {
+                    // Idle. First run? Switch to user prefs screen if there are no prefs stored yet
+                    SharedPreferences settings = getSharedPreferences("PREFS", 0);
+                    String anon = settings.getString("" + PREF_ANONID, "NADA");
 
-
-
-
-		
-		Intent rService = new Intent(this, RecordingService.class);
-		ServiceConnection sc = new ServiceConnection() {
-			public void onServiceDisconnected(ComponentName name) {}
-			public void onServiceConnected(ComponentName name, IBinder service) {
-				IRecordService rs = (IRecordService) service;
-				int state = rs.getState();
-				if (state > RecordingService.STATE_IDLE) {
-					if (state == RecordingService.STATE_FULL) {
-						startActivity(new Intent(MainInput.this, SaveTrip.class));
-					} else {  // RECORDING OR PAUSED:
-						startActivity(new Intent(MainInput.this, RecordingActivity.class));
-					}
-					MainInput.this.finish();
-				} else {
-					// Idle. First run? Switch to user prefs screen if there are no prefs stored yet
-			        SharedPreferences settings = getSharedPreferences("PREFS", 0);
-                    String anon = settings.getString(""+PREF_ANONID,"NADA");
-
-			        if (settings.getAll().isEmpty()) {
+                    if (settings.getAll().isEmpty()) {
                         showWelcomeDialog();
-			        }else if(anon == "NADA"){
+                    } else if (anon == "NADA") {
                         showWelcomeDialog();
                     }
-					// Not first run - set up the list view of saved trips
-					ListView listSavedTrips = (ListView) findViewById(R.id.ListSavedTrips);
-					populateList(listSavedTrips);
-				}
-				MainInput.this.unbindService(this); // race?  this says we no longer care
-			}
-		};
-		// This needs to block until the onServiceConnected (above) completes.
-		// Thus, we can check the recording status before continuing on.
-		bindService(rService, sc, Context.BIND_AUTO_CREATE);
+                    // Not first run - set up the list view of saved trips
+                    ListView listSavedTrips = (ListView) findViewById(R.id.ListSavedTrips);
+                    populateList(listSavedTrips);
+                }
+                MainInput.this.unbindService(this); // race?  this says we no longer care
+            }
+        };
+        // This needs to block until the onServiceConnected (above) completes.
+        // Thus, we can check the recording status before continuing on.
+        bindService(rService, sc, Context.BIND_AUTO_CREATE);
 
-		// And set up the record button
-		final Button startButton = (Button) findViewById(R.id.ButtonStart);
-		final Intent i = new Intent(this, RecordingActivity.class);
+        // And set up the record button
+        final Button startButton = (Button) findViewById(R.id.ButtonStart);
+        final Intent i = new Intent(this, RecordingActivity.class);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.US);
         SharedPreferences settings = getSharedPreferences("PREFS", 0);
-        final String anon = settings.getString(""+PREF_ANONID,"NADA");
+        final String anon = settings.getString("" + PREF_ANONID, "NADA");
 
         Firebase weatherRef = new Firebase("https://publicdata-weather.firebaseio.com/sanfrancisco");
         Firebase tempRef = new Firebase("https://publicdata-weather.firebaseio.com/sanfrancisco/currently");
-
 
 
         tempRef.addValueEventListener(new ValueEventListener() {
@@ -237,24 +221,24 @@ public class MainInput extends ActionBarActivity {
 
                 TextView tempState = (TextView) findViewById(R.id.temperatureView);
                 TextView liveTemp = (TextView) findViewById(R.id.temperatureView1);
-                String apparentTemp = ((Map)val).get("apparentTemperature").toString();
-                String windSpeed  = ((Map)val).get("windSpeed").toString();
-                Double windValue = (Double)((Map)val).get("windSpeed");
-                Long windBearing = (Long)((Map)val).get("windBearing");
+                String apparentTemp = ((Map) val).get("apparentTemperature").toString();
+                String windSpeed = ((Map) val).get("windSpeed").toString();
+                Double windValue = (Double) ((Map) val).get("windSpeed");
+                Long windBearing = (Long) ((Map) val).get("windBearing");
 
-                liveTemp.setText(" "+apparentTemp.toString()+DEGREE);
+                liveTemp.setText(" " + apparentTemp.toString() + DEGREE);
                 WindDirection[] windDirections = WindDirection.values();
-                for(int i=0; i<windDirections.length; i++ ){
-                    if(windDirections[i].startDegree < windBearing && windDirections[i].endDegree > windBearing){
+                for (int i = 0; i < windDirections.length; i++) {
+                    if (windDirections[i].startDegree < windBearing && windDirections[i].endDegree > windBearing) {
                         //Get Cardinal direction
                         cardinal = windDirections[i].cardinal;
                     }
                 }
 
-                if(windValue > 4.6){
+                if (windValue > 4.6) {
                     tempState.setTextColor(0xFFDC143C);
                     tempState.setText("winds " + cardinal + " at " + windSpeed + " mph. Ride with caution.");
-                }else{
+                } else {
                     tempState.setTextColor(0xFFFFFFFF);
                     tempState.setText("winds " + cardinal + " at " + windSpeed + " mph.");
                 }
@@ -270,9 +254,9 @@ public class MainInput extends ActionBarActivity {
         connectedListener = ref.getRoot().child(".info/connected").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean connected = (Boolean)dataSnapshot.getValue();
+                boolean connected = (Boolean) dataSnapshot.getValue();
                 if (connected) {
-                    System.out.println("connected "+dataSnapshot.toString());
+                    System.out.println("connected " + dataSnapshot.toString());
 //                    Firebase cycleRef = new Firebase(FIREBASE_REF+"/"+anon+"/connections");
 //                    cycleRef.setValue(Boolean.TRUE);
 //                    cycleRef.onDisconnect().removeValue();
@@ -308,15 +292,18 @@ public class MainInput extends ActionBarActivity {
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider.
 
-                mySpot=new LatLng(location.getLatitude(), location.getLongitude());
+                mySpot = new LatLng(location.getLatitude(), location.getLongitude());
                 makeUseOfNewLocation(location);
             }
 
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
 
-            public void onProviderEnabled(String provider) {}
+            public void onProviderEnabled(String provider) {
+            }
 
-            public void onProviderDisabled(String provider) {}
+            public void onProviderDisabled(String provider) {
+            }
         };
 
         //nearbyStations = (RecyclerView) findViewById(R.id.nearbyStationList);
@@ -343,6 +330,16 @@ public class MainInput extends ActionBarActivity {
         //indegoGeofireRef = new Firebase("https://phl.firebaseio.com/indego/_geofire");
         //GeoFire geoFire = new GeoFire(indegoGeofireRef);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         mySpot = myCurrentLocation();
         //indegoList = new ArrayList<IndegoStation>();
@@ -411,7 +408,7 @@ public class MainInput extends ActionBarActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
-	}
+    }
 
     private LatLng myCurrentLocation(){
         Criteria criteria = new Criteria();

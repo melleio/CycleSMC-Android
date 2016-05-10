@@ -28,7 +28,7 @@
  *   along with CycleTracks.  If not, see <http://www.gnu.org/licenses/>.
  */
 //
-package org.opensmc.mytracks.cyclesmc;
+package org.moveba.easystreet;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -54,8 +54,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-
-import org.opensmc.mytracks.cyclesmc.R;
 
 public class ShowMap extends FragmentActivity {
 	List<Polyline> mapTracks;

@@ -28,7 +28,7 @@
  *   along with CycleTracks.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.opensmc.mytracks.cyclesmc;
+package org.moveba.easystreet;
 
 import java.lang.String;
 import android.content.Context;
@@ -66,8 +66,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Vector;
 
-import org.opensmc.mytracks.cyclesmc.R;
-
 public class TripUploader extends AsyncTask <Long, Integer, Boolean> {
     Context mCtx;
     DbAdapter mDb;
@@ -92,7 +90,7 @@ public class TripUploader extends AsyncTask <Long, Integer, Boolean> {
     public static final String USER_INCOME = "income";
     public static final String USER_RIDERTYPE = "rider_type";
     public static final String USER_RIDERHISTORY = "rider_history";
-    public static final String postUrl =  "http://www.org.opensmc.mytracks.cyclesmc.org/post/";
+    public static final String postUrl =  "http://www.moveba.org/post/";
 
     public TripUploader(Context ctx) {
         super();

@@ -1,4 +1,4 @@
-package org.opensmc.mytracks.cyclesmc;
+package org.moveba.easystreet;
 
 import java.net.URI;
 

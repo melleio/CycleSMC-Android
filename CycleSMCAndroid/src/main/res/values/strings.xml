@@ -5,7 +5,7 @@
 	<string name="app_name">MoveBA</string>
 	<string name="geographicName">San Mateo County</string>
 	<string name="welcomeMessage">Welcome to MoveBA!</string>
-	<string name="postUrl">http://smc.moveba.org/post/</string>
+	<string name="postUrl">http://www.moveba.org/post/</string>
 	<string name="icon">Bicycle Parking</string>
 	<string name="previous_trips">Saved Trips:</string>
 	<string name="startNewTrip">Start Trip!</string>

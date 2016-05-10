@@ -28,7 +28,7 @@
  *   along with CycleTracks.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.opensmc.mytracks.cyclesmc;
+package org.moveba.easystreet;
 
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -63,8 +63,6 @@ import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallback
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.ActivityRecognitionClient;
-
-import org.opensmc.mytracks.cyclesmc.R;
 
 public class RecordingActivity extends FragmentActivity implements ConnectionCallbacks, OnConnectionFailedListener {
 	
@@ -363,7 +361,7 @@ public class RecordingActivity extends FragmentActivity implements ConnectionCal
 //        String fbId;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.US);
 
-        Firebase tripsRef = new Firebase("https://org.opensmc.mytracks.cyclesmc.firebaseio.com/trips-started/"+
+        Firebase tripsRef = new Firebase("https://m-0.firebaseio.com/trips-started/"+
                 sdf.format(new Date(System.currentTimeMillis())));
 
         Firebase newPushRef = tripsRef.push();

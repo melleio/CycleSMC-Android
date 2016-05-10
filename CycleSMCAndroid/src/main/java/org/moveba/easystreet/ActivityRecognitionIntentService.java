@@ -1,4 +1,4 @@
-package org.opensmc.mytracks.cyclesmc;
+package org.moveba.easystreet;
 
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;

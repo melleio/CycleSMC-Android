@@ -29,7 +29,7 @@
  */
 
 
-package org.opensmc.mytracks.cyclesmc;
+package org.moveba.easystreet;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package org.opensmc.mytracks.cyclesmc;
+package org.moveba.easystreet;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -31,7 +31,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.maps.android.kml.KmlLayer;
-import com.google.android.gms.maps.model.TileOverlayOptions;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -102,13 +101,13 @@ public class ShowMapNearby extends FragmentActivity {
 		if (mMap == null) {
 			mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
 			mMap.setMyLocationEnabled(true);
+			mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 			layout = (LinearLayout)findViewById(R.id.LinearLayout01);
 			ViewTreeObserver vto = layout.getViewTreeObserver();
 			vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 				@Override
 			    public void onGlobalLayout() {
 			        layout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-			        
 			        // Center & zoom the map after map layout completes
 			        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mySpot, 15));
 			    }

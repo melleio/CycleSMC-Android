@@ -28,7 +28,7 @@
  *   along with CycleTracks.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.opensmc.mytracks.cyclesmc;
+package org.moveba.easystreet;
 
 import android.app.Activity;
 import android.app.AlertDialog;

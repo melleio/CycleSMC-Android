@@ -19,7 +19,7 @@
  *   along with CycleTracks.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.opensmc.mytracks.cyclesmc;
+package org.moveba.easystreet;
 
 import java.util.Arrays;
 import java.lang.String;

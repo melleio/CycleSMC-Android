@@ -28,9 +28,8 @@
  *   along with CycleTracks.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.opensmc.mytracks.cyclesmc;
+package org.moveba.easystreet;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -52,8 +51,6 @@ import android.support.v4.app.TaskStackBuilder;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
-import org.opensmc.mytracks.cyclesmc.R;
 
 public class RecordingService extends Service implements LocationListener {
     RecordingActivity recordActivity;

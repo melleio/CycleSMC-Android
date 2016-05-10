@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.opensmc.mytracks.cyclesmc"
+    package="org.moveba.easystreet"
     android:versionCode="15"
-    android:versionName="1.7"
+    android:versionName="1.71"
     android:installLocation="auto">
 
     <uses-sdk
@@ -10,10 +10,10 @@
         android:targetSdkVersion="23" />
     
     <permission
-         android:name="org.opensmc.mytracks.cyclesmc.permission.MAPS_RECEIVE"
+         android:name="org.moveba.easystreet.permission.MAPS_RECEIVE"
          android:protectionLevel="signature"/>
     
-	<uses-permission  android:name="org.opensmc.mytracks.cyclesmc.permission.MAPS_RECEIVE"/>
+	<uses-permission  android:name="org.moveba.easystreet.permission.MAPS_RECEIVE"/>
 	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -32,7 +32,7 @@
         android:label="@string/app_name"
         android:allowBackup="true" >
         <activity
-            android:name="org.opensmc.mytracks.cyclesmc.MainInput"
+            android:name="MainInput"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
             android:launchMode="singleTask" >
@@ -64,30 +64,30 @@
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name="org.opensmc.mytracks.cyclesmc.UserInfoActivity"
+            android:name="org.moveba.easystreet.UserInfoActivity"
             android:finishOnTaskLaunch="true"
             android:launchMode="singleInstance" >
         </activity>
         <activity
-            android:name="org.opensmc.mytracks.cyclesmc.LicenseActivity"
+            android:name="org.moveba.easystreet.LicenseActivity"
             android:finishOnTaskLaunch="true"
             android:launchMode="singleInstance" >
         </activity>
 
         <service
-            android:name="org.opensmc.mytracks.cyclesmc.RecordingService"
+            android:name="org.moveba.easystreet.RecordingService"
             android:enabled="true"
             android:exported="false" >
         </service>
         
         <service
-		    android:name="org.opensmc.mytracks.cyclesmc.ActivityRecognitionIntentService"
+		    android:name="org.moveba.easystreet.ActivityRecognitionIntentService"
 		    android:exported="false">
 		</service>
 
         <meta-data
-    		android:name="com.google.android.maps.v2.API_KEY"
-    		android:value="AIzaSyD23CDQCRKd7UyM4SR-TIUvAK-vmdAFUX4"/>
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyC_B3STGBRv2vMCst6vHQGEJGT9WWGgHoI"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
